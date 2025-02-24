@@ -8,10 +8,10 @@ export async function main(ns) {
   ns.tprint(targetName);
   // see if target is real
   if (targetName == null) {
-    ns.tprint("Please add a target name...");
+    ns.tprint('Please add a target name...     EX:"backdoorTarget.js [Server]"');
   }
   else if (ns.serverExists(targetName) == false) {
-    ns.tprint("please add a valid target name...");
+    ns.tprint('please add a valid target name...     EX:"backdoorTarget.js [Server]"');
   }
   else {
 
@@ -24,7 +24,8 @@ export async function main(ns) {
         ns.brutessh(targetName);
       }
       else {
-        ns.tprint('"BruteSSH.exe" not found, exiting.');
+        ns.tprint('"BruteSSH.exe" not found...');
+        ns.tprint("Exiting script...")
         ns.exit();
       }
       if (ns.fileExists("FTPCrack.exe", "home")) {
@@ -32,7 +33,8 @@ export async function main(ns) {
         ns.ftpcrack(targetName);
       }
       else {
-        ns.tprint('"FTPCrack.exe" not found, exiting.');
+        ns.tprint('"FTPCrack.exe" not found...');
+        ns.tprint("Exiting script...")
         ns.exit();
       }
       if (ns.fileExists("relaySMTP.exe", "home")) {
@@ -40,7 +42,8 @@ export async function main(ns) {
         ns.relaysmtp(targetName);
       }
       else {
-        ns.tprint('"relaySMTP.exe" not found, exiting.');
+        ns.tprint('"relaySMTP.exe" not found...');
+        ns.tprint("Exiting script...")
         ns.exit();
       }
       if (ns.fileExists("HTTPWorm.exe", "home")) {
@@ -48,7 +51,8 @@ export async function main(ns) {
         ns.httpworm(targetName);
       }
       else {
-        ns.tprint('"HTTPWorm.exe" not found, exiting.');
+        ns.tprint('"HTTPWorm.exe" not found...');
+        ns.tprint("Exiting script...")
         ns.exit();
       }
       if (ns.fileExists("SQLInject.exe", "home")) {
@@ -56,7 +60,8 @@ export async function main(ns) {
         ns.sqlinject(targetName);
       }
       else {
-        ns.tprint('"SQLInject.exe" not found, exiting.');
+        ns.tprint('"SQLInject.exe" not found...');
+        ns.tprint("Exiting script...")
         ns.exit();
       }
 
@@ -101,6 +106,8 @@ export async function main(ns) {
             prev = temp[0]; //set the previous server as the new server to scan from
           }
         }
+
+        // reverse array... EX: [path, path, path, target]
         path.reverse();
         path.push(targetName);
 
@@ -108,6 +115,18 @@ export async function main(ns) {
         for (let i = 0; i < path.length; i++) {
           ns.tprint(`connecting too ${path[i]}`)
           ns.singularity.connect(path[i]);
+
+          // get name of current server
+          let currentServerName = ns.getHostname()
+
+          // get LVL of current server
+          let currentServerLVL = ns.getServerRequiredHackingLevel(currentServerName);
+
+          // install backdoor along path if can
+          if (currentServerLVL >= myLVL){
+            ns.tprint(`Installing backdoor on ${currentServerName}...`)
+            ns.singularity.installBackdoor();
+          }
         }
       }
 
@@ -115,7 +134,11 @@ export async function main(ns) {
       ns.tprint("installing Backdoor...");
       await ns.singularity.installBackdoor();
       ns.tprint("Backdoor installed...");
+
+      // return home
       ns.tprint("Returning Home");
+
+      // reverse array...   EX:[target, path, path, path, home]
       path.reverse();
       path.push("home");
       for (let i = 0; i < path.length; i++) {
@@ -124,7 +147,7 @@ export async function main(ns) {
     }
     else {
       ns.tprint(`Can't install a Backdoor...   your hacking LVL needs to be ${backDoorLVL}, Try again later...`);
-      ns.tprint("Exiting...");
+      ns.tprint("Exiting script...");
       ns.exit();
     }
   }
