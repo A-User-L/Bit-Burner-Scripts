@@ -1,4 +1,4 @@
-/** @param {NS} ns */
+** @param {NS} ns */
 export async function main(ns) {
   
   // run betterworm.js if can
@@ -61,8 +61,7 @@ export async function main(ns) {
     }
     else {
       ns.tprint('You do not have enough RAM to run "N00dles.js"');
-      ns.tprint("Exiting script...");
-      ns.exit();
+      ns.tprint("Skipping...");
     }
   }
   else {
