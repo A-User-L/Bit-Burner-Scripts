@@ -67,6 +67,24 @@ export async function main(ns) {
   }
   else {
     ns.tprint('Cant Find "N00dles.js"...');
+    ns.tprint("Skipping...");
+  }
+
+   // run BladeBurner.js if can
+  if (ns.fileExists("BladeBurner.js", "home")) {
+    if ((ns.getServerMaxRam("home") - ns.getServerUsedRam("home")) >= ns.getScriptRam("BladeBurner.js")) {
+      ns.run("BladeBurner.js");
+      ns.tprint('Running "BladeBurner.js"');
+      await ns.sleep(1000);
+    }
+    else {
+      ns.tprint('You do not have enough RAM to run "BladeBurner.js"');
+      ns.tprint("Exiting script...");
+      ns.exit();
+    }
+  }
+  else {
+    ns.tprint('Cant Find "BladeBurner.js"...');
     ns.tprint("Exiting script...");
     ns.exit();
   }
