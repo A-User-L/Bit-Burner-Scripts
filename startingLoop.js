@@ -1,6 +1,6 @@
 /** @param {NS} ns */
 export async function main(ns) {
-  
+
   // run betterworm.js if can
   if (ns.fileExists("betterworm.js", "home")) {
     if ((ns.getServerMaxRam("home") - ns.getServerUsedRam("home")) >= ns.getScriptRam("betterworm.js")) {
@@ -35,12 +35,21 @@ export async function main(ns) {
     ns.tprint("Skiping...");
   }
 
-  // run gang:3.js if can
+  // see if can run gang:3.js
   if (ns.fileExists("gang:3.js", "home")) {
     if ((ns.getServerMaxRam("home") - ns.getServerUsedRam("home")) >= ns.getScriptRam("gang:3.js")) {
-      ns.run("gang:3.js");
-      ns.tprint('Running "gang:3.js"');
-      await ns.sleep(1000);
+
+      // run gang:3.js if in gang
+      if (ns.gang.inGang()) {
+        ns.run("gang:3.js");
+        ns.tprint('Running "gang:3.js"');
+        await ns.sleep(1000);
+      }
+      else {
+        ns.tprint("You are not in a gang...");
+        ns.tprint('Skipping "gang:3.js"...');
+        await ns.sleep(1000);
+      }
     }
     else {
       ns.tprint('You do not have enough RAM to run "gang:3.js"');
@@ -69,7 +78,7 @@ export async function main(ns) {
     ns.tprint("Skipping...");
   }
 
-   // run BladeBurner.js if can
+  // run BladeBurner.js if can
   if (ns.fileExists("BladeBurner.js", "home")) {
     if ((ns.getServerMaxRam("home") - ns.getServerUsedRam("home")) >= ns.getScriptRam("BladeBurner.js")) {
       ns.run("BladeBurner.js");
