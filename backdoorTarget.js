@@ -5,7 +5,6 @@ export async function main(ns) {
   const targetName = ns.args[0];
   String(targetName);
 
-  ns.tprint(targetName);
   // see if target is real
   if (targetName == null) {
     ns.tprint('Please add a target name...     EX:"backdoorTarget.js [Server]"');
@@ -14,6 +13,9 @@ export async function main(ns) {
     ns.tprint('please add a valid target name...     EX:"backdoorTarget.js [Server]"');
   }
   else {
+
+    // print target
+    ns.tprint(`Your Target is ${targetName}...`)
 
     // if is real open ports and gain root function
     function openPortsGainRoot() {
@@ -88,7 +90,10 @@ export async function main(ns) {
 
     if (myLVL >= backDoorLVL) {
 
+      // get current server name
       const hostname = ns.getHostname();
+
+      // if not at target then find path and go to target
       if (ns.scan(hostname) != targetName) {
 
         // find path... thanks to "Tyryt" for this part
@@ -116,11 +121,8 @@ export async function main(ns) {
           ns.tprint(`connecting too ${path[i]}`)
           ns.singularity.connect(path[i]);
 
-          // get name of current server
-          let currentServerName = ns.getHostname()
-
           // get LVL of current server
-          let currentServerLVL = ns.getServerRequiredHackingLevel(currentServerName);
+          let currentServerLVL = ns.getServerRequiredHackingLevel(hostname);
 
           // install backdoor along path if can
           if (currentServerLVL >= myLVL){
