@@ -120,15 +120,6 @@ export async function main(ns) {
         for (let i = 0; i < path.length; i++) {
           ns.tprint(`connecting too ${path[i]}`)
           ns.singularity.connect(path[i]);
-
-          // get LVL of current server
-          let currentServerLVL = ns.getServerRequiredHackingLevel(hostname);
-
-          // install backdoor along path if can
-          if (currentServerLVL >= myLVL){
-            ns.tprint(`Installing backdoor on ${currentServerName}...`)
-            ns.singularity.installBackdoor();
-          }
         }
       }
 
