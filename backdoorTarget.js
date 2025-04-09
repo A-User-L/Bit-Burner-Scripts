@@ -99,7 +99,7 @@ export async function main(ns) {
         // find path... thanks to "Tyryt" for this part
         var temp = ns.scan(ns.args[0]) //initializing temp to array of scan of target system
         var path = []; //initializing final output
-        var prev = temp[0]; //intitializing previous server to first result (previous server) of the temp scan
+        var prev = temp[0]; //initializing previous server to first result (previous server) of the temp scan
         var done = 0; //prepping for while loop
         while (done == 0) { //workloop start  this could probably just be a ture/false or 1/0, optimize as you will
           if (prev == "home") { //when the previous server is home, trigger this
@@ -118,7 +118,7 @@ export async function main(ns) {
 
         // connect through path
         for (let i = 0; i < path.length; i++) {
-          ns.tprint(`connecting too ${path[i]}`)
+          ns.tprint(`connecting to ${path[i]}`)
           ns.singularity.connect(path[i]);
         }
       }
