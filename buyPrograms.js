@@ -1,0 +1,50 @@
+/** @param {NS} ns */
+export async function main(ns) {
+
+  // check money YOU have
+  const homeMoney = ns.getServerMoneyAvailable("home");
+
+  // add commas to num for readability
+  function formatNum(numToFormat) {
+    let formatedNum = numToFormat.toLocaleString();
+    return formatedNum;
+  }
+
+  // buy dark web if can
+  if(homeMoney <= 200000) {
+    ns.tprint("You can not buy a TOR router...");
+
+    // how much more do YOU need?
+    const needMoneyToBuyTOR = 200000 - homeMoney;
+    ns.tprint(`You need $${formatNum(needMoneyToBuyTOR)} more...`);
+    ns.tprint("Exititing script...");
+    ns.exit();
+  }
+  else if(ns.hasTorRouter() == false) {
+    ns.tprint("Buying a TOR router...");
+    ns.singularity.purchaseTor();
+  }
+
+  // get available programs on darkweb
+  const programsForSale = ns.singularity.getDarkwebPrograms();
+
+  // see what YOU can buy and buy if YOU can
+  for(var i=0; i < programsForSale.length; i++){
+    let program = programsForSale[i]
+    let programCost = ns.singularity.getDarkwebProgramCost(program);
+    if(programCost == 0){
+      ns.tprint(`You have already purchased ${program}...`);
+    }
+    else if(homeMoney <= programCost){
+
+      // how much more do YOU need?
+      const needMoneyToBuyProgram = programCost - homeMoney;
+      ns.tprint(`You need $${formatNum(needMoneyToBuyProgram)} more to buy ${program}...`);
+    }
+    else{
+      ns.tprint(`purchased ${program} for $${formatNum(programCost)}`);
+      ns.singularity.purchaseProgram(program);
+    }
+  }
+  ns.tprint("Exiting script...");
+}
