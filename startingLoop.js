@@ -1,11 +1,32 @@
 /** @param {NS} ns */
 export async function main(ns) {
 
+  // run buyPrograms.js if can
+  if (ns.fileExists("buyPrograms.js", "home")) {
+    if ((ns.getServerMaxRam("home") - ns.getServerUsedRam("home")) >= ns.getScriptRam("buyPrograms.js")) {
+      ns.run("buyPrograms.js");
+      ns.tprint('Running "betterworm.js"');
+
+      // give script time to run
+      await ns.sleep(1000);
+    }
+    else {
+      ns.tprint('You do not have enough RAM to run "buyPrograms.js"');
+      ns.tprint("Skiping...");
+    }
+  }
+  else {
+    ns.tprint('Cant Find "buyPrograms.js"...');
+    ns.tprint("Skiping...");
+  }
+
   // run betterworm.js if can
   if (ns.fileExists("betterworm.js", "home")) {
     if ((ns.getServerMaxRam("home") - ns.getServerUsedRam("home")) >= ns.getScriptRam("betterworm.js")) {
       ns.run("betterworm.js");
       ns.tprint('Running "betterworm.js"');
+
+      // give script time to run
       await ns.sleep(1000);
     }
     else {
@@ -23,6 +44,8 @@ export async function main(ns) {
     if ((ns.getServerMaxRam("home") - ns.getServerUsedRam("home")) >= ns.getScriptRam("stockgoburr.js")) {
       ns.run("stockgoburr.js");
       ns.tprint('Running "stockgoburr.js"');
+
+      // give script time to run
       await ns.sleep(1000);
     }
     else {
@@ -43,12 +66,13 @@ export async function main(ns) {
       if (ns.gang.inGang()) {
         ns.run("gang:3.js");
         ns.tprint('Running "gang:3.js"');
+
+        // give script time to run
         await ns.sleep(1000);
       }
       else {
         ns.tprint("You are not in a gang...");
         ns.tprint('Skipping "gang:3.js"...');
-        await ns.sleep(1000);
       }
     }
     else {
@@ -57,7 +81,7 @@ export async function main(ns) {
     }
   }
   else {
-    ns.tprint('Cant Find "betterworm.js"...');
+    ns.tprint('Cant Find "gang:3.js"...');
     ns.tprint("Skiping...");
   }
 
@@ -66,6 +90,8 @@ export async function main(ns) {
     if ((ns.getServerMaxRam("home") - ns.getServerUsedRam("home")) >= ns.getScriptRam("N00dles.js")) {
       ns.run("N00dles.js");
       ns.tprint('Running "N00dles.js"');
+
+      // give script time to run
       await ns.sleep(15000);
     }
     else {
@@ -83,6 +109,8 @@ export async function main(ns) {
     if ((ns.getServerMaxRam("home") - ns.getServerUsedRam("home")) >= ns.getScriptRam("BladeBurner.js")) {
       ns.run("BladeBurner.js");
       ns.tprint('Running "BladeBurner.js"');
+
+      // give script time to run
       await ns.sleep(1000);
     }
     else {
