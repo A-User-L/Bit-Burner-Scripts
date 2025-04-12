@@ -5,7 +5,7 @@ export async function main(ns) {
   if (ns.fileExists("buyPrograms.js", "home")) {
     if ((ns.getServerMaxRam("home") - ns.getServerUsedRam("home")) >= ns.getScriptRam("buyPrograms.js")) {
       ns.run("buyPrograms.js");
-      ns.tprint('Running "betterworm.js"');
+      ns.tprint('Running "buyPrograms.js"');
 
       // give script time to run
       await ns.sleep(1000);
