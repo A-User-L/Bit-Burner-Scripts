@@ -12,11 +12,11 @@ export async function main(ns) {
 
   // buy dark web if can
   if(homeMoney <= 200000) {
-    ns.tprint("You can not buy a TOR router...");
+    ns.tprint("ERROR: You can not buy a TOR router...");
 
     // how much more do YOU need?
     const needMoneyToBuyTOR = 200000 - homeMoney;
-    ns.tprint(`You need $${formatNum(needMoneyToBuyTOR)} more...`);
+    ns.tprint(`INFO: You need $${formatNum(needMoneyToBuyTOR)} more...`);
     ns.tprint("Exititing script...");
     ns.exit();
   }
@@ -33,13 +33,13 @@ export async function main(ns) {
     let program = programsForSale[i]
     let programCost = ns.singularity.getDarkwebProgramCost(program);
     if(programCost == 0){
-      ns.tprint(`You have already purchased ${program}...`);
+      ns.tprint(`WARN: You have already purchased ${program}...`);
     }
     else if(homeMoney <= programCost){
 
       // how much more do YOU need?
       const needMoneyToBuyProgram = programCost - homeMoney;
-      ns.tprint(`You need $${formatNum(needMoneyToBuyProgram)} more to buy ${program}...`);
+      ns.tprint(`ERROR: You need $${formatNum(needMoneyToBuyProgram)} more to buy ${program}...`);
     }
     else{
       ns.tprint(`purchased ${program} for $${formatNum(programCost)}`);
