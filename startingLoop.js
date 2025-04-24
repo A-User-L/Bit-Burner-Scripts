@@ -1,127 +1,56 @@
 /** @param {NS} ns */
 export async function main(ns) {
 
-  // run buyPrograms.js if can
-  if (ns.fileExists("buyPrograms.js", "home")) {
-    if ((ns.getServerMaxRam("home") - ns.getServerUsedRam("home")) >= ns.getScriptRam("buyPrograms.js")) {
-      ns.run("buyPrograms.js");
-      ns.tprint('Running "buyPrograms.js"');
+  const host = ns.getHostname();
 
-      // give script time to run
-      await ns.sleep(1000);
-    }
-    else {
-      ns.tprint('WARN: You do not have enough RAM to run "buyPrograms.js"');
-      ns.tprint("Skiping...");
-    }
-  }
-  else {
-    ns.tprint('ERROR: Cant Find "buyPrograms.js"...');
-    ns.tprint("Skiping...");
-  }
+  // program List (Add More programs, Comment out, and Remove Programs as needed)
+  const programList = ["buyPrograms.js", "betterworm.js", "stockgoburr.js", "gang:3.js", "N00dles.js", "BladeBurner.js"];
 
-  // run betterworm.js if can
-  if (ns.fileExists("betterworm.js", "home")) {
-    if ((ns.getServerMaxRam("home") - ns.getServerUsedRam("home")) >= ns.getScriptRam("betterworm.js")) {
-      ns.run("betterworm.js");
-      ns.tprint('Running "betterworm.js"');
+  // programs that run forever
+  const termBose = ["buyPrograms.js", "N00dles.js","BladeBurner.js"];
 
-      // give script time to run
-      await ns.sleep(1000);
-    }
-    else {
-      ns.tprint('WARN: You do not have enough RAM to run "betterworm.js"');
-      ns.tprint("Skiping...");
-    }
-  }
-  else {
-    ns.tprint('ERROR: Cant Find "betterworm.js"...');
-    ns.tprint("Skiping...");
-  }
+  // go through program List
+  for (let a = 0; a < programList.length; a++) {
 
-  // run stockgoburr.js if can
-  if (ns.fileExists("stockgoburr.js", "home")) {
-    if ((ns.getServerMaxRam("home") - ns.getServerUsedRam("home")) >= ns.getScriptRam("stockgoburr.js")) {
-      ns.run("stockgoburr.js");
-      ns.tprint('Running "stockgoburr.js"');
+    // see if YOU have the file
+    if (ns.fileExists(programList[a], host)) {
 
-      // give script time to run
-      await ns.sleep(1000);
-    }
-    else {
-      ns.tprint('WARN: You do not have enough RAM to run "stockgoburr.js"');
-      ns.tprint("Skiping...");
-    }
-  }
-  else {
-    ns.tprint('ERROR: Cant Find "stockgoburr.js"...');
-    ns.tprint("Skiping...");
-  }
+      // see if YOU can run the program
+      if ((ns.getServerMaxRam(host) - ns.getServerUsedRam(host)) >= ns.getScriptRam(programList[a])) {
 
-  // see if can run gang:3.js
-  if (ns.fileExists("gang:3.js", "home")) {
-    if ((ns.getServerMaxRam("home") - ns.getServerUsedRam("home")) >= ns.getScriptRam("gang:3.js")) {
+        // for "gang:3.js" check if in gang
+        if (programList[a] == "gang:3.js" && ns.gang.inGang() == false) {
+          ns.tprint("WARN: You are not in a gang...");
+          ns.tprint("Skiping...");
+          i++
+        }
 
-      // run gang:3.js if in gang
-      if (ns.gang.inGang()) {
-        ns.run("gang:3.js");
-        ns.tprint('Running "gang:3.js"');
+        // run program
+        ns.tprint(`Running ${programList[a]}`);
+        let runScript = ns.run(programList[a]);
 
-        // give script time to run
-        await ns.sleep(1000);
+        // give program time to run if it uses terminal to be verbose
+        for (let b = 0; b < termBose.length; b++) {
+          if (programList[a] == termBose[b]) {
+            do {
+              await ns.sleep(2000);
+            } while (ns.isRunning(runScript));
+          }
+          else{
+            await ns.sleep(1000);
+          }
+        }
       }
       else {
-        ns.tprint("WARN: You are not in a gang...");
-        ns.tprint('Skipping "gang:3.js"...');
+        ns.tprint(`WARN: You do not have enough RAM to run ${programList[a]}`);
+        ns.tprint("Skiping...");
       }
     }
     else {
-      ns.tprint('WARN: You do not have enough RAM to run "gang:3.js"');
+      ns.tprint(`ERROR: Cant Find ${programList[a]}...`);
       ns.tprint("Skiping...");
     }
   }
-  else {
-    ns.tprint('ERROR: Cant Find "gang:3.js"...');
-    ns.tprint("Skiping...");
-  }
-
-  // run N00dles.js if can
-  if (ns.fileExists("N00dles.js", "home")) {
-    if ((ns.getServerMaxRam("home") - ns.getServerUsedRam("home")) >= ns.getScriptRam("N00dles.js")) {
-      ns.run("N00dles.js");
-      ns.tprint('Running "N00dles.js"');
-
-      // give script time to run
-      await ns.sleep(15000);
-    }
-    else {
-      ns.tprint('WARN: You do not have enough RAM to run "N00dles.js"');
-      ns.tprint("Skipping...");
-    }
-  }
-  else {
-    ns.tprint('ERROR: Cant Find "N00dles.js"...');
-    ns.tprint("Skipping...");
-  }
-
-  // run BladeBurner.js if can
-  if (ns.fileExists("BladeBurner.js", "home")) {
-    if ((ns.getServerMaxRam("home") - ns.getServerUsedRam("home")) >= ns.getScriptRam("BladeBurner.js")) {
-      ns.run("BladeBurner.js");
-      ns.tprint('Running "BladeBurner.js"');
-
-      // give script time to run
-      await ns.sleep(1000);
-    }
-    else {
-      ns.tprint('WARN: You do not have enough RAM to run "BladeBurner.js"');
-      ns.tprint("Exiting script...");
-      ns.exit();
-    }
-  }
-  else {
-    ns.tprint('ERROR: Cant Find "BladeBurner.js"...');
-    ns.tprint("Exiting script...");
-    ns.exit();
-  }
+  ns.tprint("Done...");
+  ns.tprint("Exiting Script...");
 }
