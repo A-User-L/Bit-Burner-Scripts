@@ -3,6 +3,11 @@ export async function main(ns) {
   var name = ns.getHostname();
   var targetMaxMoney = ns.getServerMaxMoney(name);
 
+  if(name == "home"){
+    ns.tprint("ERROR: You can not hack home...");
+    ns.tprint("exiting script...");
+    ns.exit();
+  }
   while (true) {
     var hackchance = ns.hackAnalyzeChance(name);
     var availableTargetMoney = ns.getServerMoneyAvailable(name);
