@@ -7,64 +7,81 @@ export async function main(ns) {
 
   // see if target is real
   if (targetName == null) {
-    ns.tprint('Please add a target name...     EX:"backdoorTarget.js [Server]"');
+    ns.tprint("ERROR: Please add a target name...");
+    ns.tprint('INFO: EX:"backdoorTarget.js [Server]"');
   }
   else if (ns.serverExists(targetName) == false) {
-    ns.tprint('please add a valid target name...     EX:"backdoorTarget.js [Server]"');
+    ns.tprint("ERROR: please add a valid target name...");
+    ns.tprint('INFO: EX:"backdoorTarget.js [Server]"');
   }
   else {
 
     // print target
     ns.tprint(`Your Target is ${targetName}...`)
 
-    // if is real open ports and gain root function
+    // if file is real open ports and gain root function
     function openPortsGainRoot() {
 
+      const portsNeedOpen = getServerNumPortsRequired(targetName);
+
       // open ports if can
-      if (ns.fileExists("BruteSSH.exe", "home")) {
-        ns.tprint("opening SSH port...");
-        ns.brutessh(targetName);
+      if (portsNeedOpen === 0) {
+        ns.tprint("INFO: You do not need to open any ports...");
       }
-      else {
-        ns.tprint('"BruteSSH.exe" not found...');
-        ns.tprint("Exiting script...")
-        ns.exit();
+      else if (portsNeedOpen === 1) {
+        if (ns.fileExists("BruteSSH.exe", "home")) {
+          ns.tprint("opening SSH port...");
+          ns.brutessh(targetName);
+        }
+        else {
+          ns.tprint('ERROR: "BruteSSH.exe" not found...');
+          ns.tprint("Exiting...");
+          ns.exit();
+        }
       }
-      if (ns.fileExists("FTPCrack.exe", "home")) {
-        ns.tprint("opening FTP port...");
-        ns.ftpcrack(targetName);
+      else if (portsNeedOpen === 2) {
+        if (ns.fileExists("FTPCrack.exe", "home")) {
+          ns.tprint("opening FTP port...");
+          ns.ftpcrack(targetName);
+        }
+        else {
+          ns.tprint('ERROR: "FTPCrack.exe" not found...');
+          ns.tprint("Exiting...");
+          ns.exit();
+        }
       }
-      else {
-        ns.tprint('"FTPCrack.exe" not found...');
-        ns.tprint("Exiting script...")
-        ns.exit();
+      else if (portsNeedOpen === 3) {
+        if (ns.fileExists("relaySMTP.exe", "home")) {
+          ns.tprint("opening SMTP port...");
+          ns.relaysmtp(targetName);
+        }
+        else {
+          ns.tprint('ERROR: "relaySMTP.exe" not found...');
+          ns.tprint("Exiting...");
+          ns.exit();
+        }
       }
-      if (ns.fileExists("relaySMTP.exe", "home")) {
-        ns.tprint("opening SMTP port...");
-        ns.relaysmtp(targetName);
+      else if (portsNeedOpen === 4) {
+        if (ns.fileExists("HTTPWorm.exe", "home")) {
+          ns.tprint("opening HTTP port...");
+          ns.httpworm(targetName);
+        }
+        else {
+          ns.tprint('ERROR: "HTTPWorm.exe" not found...');
+          ns.tprint("Exiting...");
+          ns.exit();
+        }
       }
-      else {
-        ns.tprint('"relaySMTP.exe" not found...');
-        ns.tprint("Exiting script...")
-        ns.exit();
-      }
-      if (ns.fileExists("HTTPWorm.exe", "home")) {
-        ns.tprint("opening HTTP port...");
-        ns.httpworm(targetName);
-      }
-      else {
-        ns.tprint('"HTTPWorm.exe" not found...');
-        ns.tprint("Exiting script...")
-        ns.exit();
-      }
-      if (ns.fileExists("SQLInject.exe", "home")) {
-        ns.tprint("opening SQL port...");
-        ns.sqlinject(targetName);
-      }
-      else {
-        ns.tprint('"SQLInject.exe" not found...');
-        ns.tprint("Exiting script...")
-        ns.exit();
+      else if (portsNeedOpen === 5) {
+        if (ns.fileExists("SQLInject.exe", "home")) {
+          ns.tprint("opening SQL port...");
+          ns.sqlinject(targetName);
+        }
+        else {
+          ns.tprint('ERROR: "SQLInject.exe" not found...');
+          ns.tprint("Exiting...");
+          ns.exit();
+        }
       }
 
       // gain root access
@@ -73,13 +90,13 @@ export async function main(ns) {
         ns.nuke(targetName);
       }
       else {
-        ns.tprint('"NUKE.exe" not found, exiting.');
+        ns.tprint('ERROR: "NUKE.exe" not found, exiting...');
         ns.exit();
       }
     }
 
     // check if have root, if not call function to open ports and gain root
-    ns.hasRootAccess(targetName) ? ns.tprint("You already have root access...") : openPortsGainRoot(), ns.tprint("Gaining Root successful...");
+    ns.hasRootAccess(targetName) ? ns.tprint("INFO: You already have root access...") : openPortsGainRoot(), ns.tprint("Gaining Root successful...");
     await ns.sleep(1000);
 
     // get LVL to backdoor & get MY LVL
@@ -99,7 +116,7 @@ export async function main(ns) {
         // find path... thanks to "Tyryt" for this part
         var temp = ns.scan(ns.args[0]) //initializing temp to array of scan of target system
         var path = []; //initializing final output
-        var prev = temp[0]; //initializing previous server to first result (previous server) of the temp scan
+        var prev = temp[0]; //intitializing previous server to first result (previous server) of the temp scan
         var done = 0; //prepping for while loop
         while (done == 0) { //workloop start  this could probably just be a ture/false or 1/0, optimize as you will
           if (prev == "home") { //when the previous server is home, trigger this
@@ -139,7 +156,8 @@ export async function main(ns) {
       }
     }
     else {
-      ns.tprint(`Can't install a Backdoor...   your hacking LVL needs to be ${backDoorLVL}, Try again later...`);
+      ns.tprint("ERROR: Can't install a Backdoor..."); 
+      ns.tprint(`INFO: your hacking LVL needs to be ${backDoorLVL}, Try again later...`);
       ns.tprint("Exiting script...");
       ns.exit();
     }
