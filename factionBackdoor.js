@@ -8,8 +8,8 @@ export async function main(ns) {
   if(ns.fileExists(bT) == false) {
 
     // ask if you want to download "backdoorTarget.js"
-    const resultB = await ns.prompt(`ERROR: You do not have ${bT} on this server...\nINFO: You need ${bT} to run this script...\nWould you like to download ${bT} from Github?`, { type: "boolean" });
-    if(resultB) {
+    const askYorN = await ns.prompt(`ERROR: You do not have ${bT} on this server...\nINFO: You need ${bT} to run this script...\nWould you like to download ${bT} from Github?`, { type: "boolean" });
+    if(askYorN) {
       const scriptDownload = await ns.wget("https://raw.githubusercontent.com/A-User-L/Bit-Burner-Scripts/refs/heads/main/backdoorTarget.js", bT);
       ns.tprint(`Downloading ${bT}...`);
       await ns.sleep(1000);
@@ -34,12 +34,12 @@ export async function main(ns) {
   // backdoor targets to unlock factions
   for(let i = 0; i < targets.length; i++){
     ns.tprint(`Running ${bT} on ${targets[i]}`);
-    let backBoorRun = ns.run(bT, 1, targets[i]);
+    let backDoorRun = ns.run(bT, 1, targets[i]);
 
     // wait till backdoor is finished before moving on
     do{
       await ns.sleep(3000);
-    }while(ns.isRunning(backBoorRun));
+    }while(ns.isRunning(backDoorRun));
   }
   ns.tprint("Script is done...");
   ns.tprint("Exiting...");
