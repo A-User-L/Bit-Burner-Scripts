@@ -11,12 +11,12 @@ export async function main(ns) {
       await ns.sleep(1000);
     }
     else {
-      ns.tprint('You do not have enough RAM to run "buyPrograms.js"');
+      ns.tprint('WARN: You do not have enough RAM to run "buyPrograms.js"');
       ns.tprint("Skiping...");
     }
   }
   else {
-    ns.tprint('Cant Find "buyPrograms.js"...');
+    ns.tprint('ERROR: Cant Find "buyPrograms.js"...');
     ns.tprint("Skiping...");
   }
 
@@ -30,12 +30,12 @@ export async function main(ns) {
       await ns.sleep(1000);
     }
     else {
-      ns.tprint('You do not have enough RAM to run "betterworm.js"');
+      ns.tprint('WARN: You do not have enough RAM to run "betterworm.js"');
       ns.tprint("Skiping...");
     }
   }
   else {
-    ns.tprint('Cant Find "betterworm.js"...');
+    ns.tprint('ERROR: Cant Find "betterworm.js"...');
     ns.tprint("Skiping...");
   }
 
@@ -49,12 +49,12 @@ export async function main(ns) {
       await ns.sleep(1000);
     }
     else {
-      ns.tprint('You do not have enough RAM to run "stockgoburr.js"');
+      ns.tprint('WARN: You do not have enough RAM to run "stockgoburr.js"');
       ns.tprint("Skiping...");
     }
   }
   else {
-    ns.tprint('Cant Find "stockgoburr.js"...');
+    ns.tprint('ERROR: Cant Find "stockgoburr.js"...');
     ns.tprint("Skiping...");
   }
 
@@ -71,17 +71,17 @@ export async function main(ns) {
         await ns.sleep(1000);
       }
       else {
-        ns.tprint("You are not in a gang...");
+        ns.tprint("WARN: You are not in a gang...");
         ns.tprint('Skipping "gang:3.js"...');
       }
     }
     else {
-      ns.tprint('You do not have enough RAM to run "gang:3.js"');
+      ns.tprint('WARN: You do not have enough RAM to run "gang:3.js"');
       ns.tprint("Skiping...");
     }
   }
   else {
-    ns.tprint('Cant Find "gang:3.js"...');
+    ns.tprint('ERROR: Cant Find "gang:3.js"...');
     ns.tprint("Skiping...");
   }
 
@@ -95,12 +95,12 @@ export async function main(ns) {
       await ns.sleep(15000);
     }
     else {
-      ns.tprint('You do not have enough RAM to run "N00dles.js"');
+      ns.tprint('WARN: You do not have enough RAM to run "N00dles.js"');
       ns.tprint("Skipping...");
     }
   }
   else {
-    ns.tprint('Cant Find "N00dles.js"...');
+    ns.tprint('ERROR: Cant Find "N00dles.js"...');
     ns.tprint("Skipping...");
   }
 
@@ -114,13 +114,13 @@ export async function main(ns) {
       await ns.sleep(1000);
     }
     else {
-      ns.tprint('You do not have enough RAM to run "BladeBurner.js"');
+      ns.tprint('WARN: You do not have enough RAM to run "BladeBurner.js"');
       ns.tprint("Exiting script...");
       ns.exit();
     }
   }
   else {
-    ns.tprint('Cant Find "BladeBurner.js"...');
+    ns.tprint('ERROR: Cant Find "BladeBurner.js"...');
     ns.tprint("Exiting script...");
     ns.exit();
   }
