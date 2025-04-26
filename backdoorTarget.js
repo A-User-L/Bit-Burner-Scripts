@@ -22,7 +22,7 @@ export async function main(ns) {
     // if file is real open ports and gain root function
     function openPortsGainRoot() {
 
-      const portsNeedOpen = getServerNumPortsRequired(targetName);
+      const portsNeedOpen = ns.getServerNumPortsRequired(targetName);
 
       // open ports if can
       if (portsNeedOpen === 0) {
