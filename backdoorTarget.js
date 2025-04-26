@@ -6,7 +6,7 @@ export async function main(ns) {
   String(targetName);
 
   // see if target is real
-  if (targetName == null) {
+  if(targetName == null) {
     ns.tprint("ERROR: Please add a target name...");
     ns.tprint('INFO: EX:"backdoorTarget.js [Server]"');
   }
@@ -25,11 +25,11 @@ export async function main(ns) {
       const portsNeedOpen = ns.getServerNumPortsRequired(targetName);
 
       // open ports if can
-      if (portsNeedOpen === 0) {
+      if(portsNeedOpen === 0) {
         ns.tprint("INFO: You do not need to open any ports...");
       }
-      else if (portsNeedOpen === 1) {
-        if (ns.fileExists("BruteSSH.exe", "home")) {
+      else if(portsNeedOpen >= 1) {
+        if(ns.fileExists("BruteSSH.exe", "home")) {
           ns.tprint("opening SSH port...");
           ns.brutessh(targetName);
         }
@@ -39,8 +39,8 @@ export async function main(ns) {
           ns.exit();
         }
       }
-      else if (portsNeedOpen === 2) {
-        if (ns.fileExists("FTPCrack.exe", "home")) {
+      if(portsNeedOpen >= 2) {
+        if(ns.fileExists("FTPCrack.exe", "home")) {
           ns.tprint("opening FTP port...");
           ns.ftpcrack(targetName);
         }
@@ -50,8 +50,8 @@ export async function main(ns) {
           ns.exit();
         }
       }
-      else if (portsNeedOpen === 3) {
-        if (ns.fileExists("relaySMTP.exe", "home")) {
+      if(portsNeedOpen >= 3) {
+        if(ns.fileExists("relaySMTP.exe", "home")) {
           ns.tprint("opening SMTP port...");
           ns.relaysmtp(targetName);
         }
@@ -61,8 +61,8 @@ export async function main(ns) {
           ns.exit();
         }
       }
-      else if (portsNeedOpen === 4) {
-        if (ns.fileExists("HTTPWorm.exe", "home")) {
+      if(portsNeedOpen >= 4) {
+        if(ns.fileExists("HTTPWorm.exe", "home")) {
           ns.tprint("opening HTTP port...");
           ns.httpworm(targetName);
         }
@@ -72,8 +72,8 @@ export async function main(ns) {
           ns.exit();
         }
       }
-      else if (portsNeedOpen === 5) {
-        if (ns.fileExists("SQLInject.exe", "home")) {
+      if(portsNeedOpen === 5) {
+        if(ns.fileExists("SQLInject.exe", "home")) {
           ns.tprint("opening SQL port...");
           ns.sqlinject(targetName);
         }
@@ -85,7 +85,7 @@ export async function main(ns) {
       }
 
       // gain root access
-      if (ns.fileExists("NUKE.exe", "home")) {
+      if(ns.fileExists("NUKE.exe", "home")) {
         ns.tprint("Gaining Root access...");
         ns.nuke(targetName);
       }
@@ -105,13 +105,13 @@ export async function main(ns) {
 
 
 
-    if (myLVL >= backDoorLVL) {
+    if(myLVL >= backDoorLVL) {
 
       // get current server name
       const hostname = ns.getHostname();
 
       // if not at target then find path and go to target
-      if (ns.scan(hostname) != targetName) {
+      if(ns.scan(hostname) != targetName) {
 
         // find path... thanks to "Tyryt" for this part
         var temp = ns.scan(ns.args[0]) //initializing temp to array of scan of target system
@@ -134,7 +134,7 @@ export async function main(ns) {
         path.push(targetName);
 
         // connect through path
-        for (let i = 0; i < path.length; i++) {
+        for(let i = 0; i < path.length; i++) {
           ns.tprint(`connecting to ${path[i]}`)
           ns.singularity.connect(path[i]);
         }
@@ -151,7 +151,7 @@ export async function main(ns) {
       // reverse array...   EX:[target, path, path, path, home]
       path.reverse();
       path.push("home");
-      for (let i = 0; i < path.length; i++) {
+      for(let i = 0; i < path.length; i++) {
         ns.singularity.connect(path[i]);
       }
     }
