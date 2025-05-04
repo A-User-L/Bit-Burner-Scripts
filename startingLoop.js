@@ -22,7 +22,7 @@ export async function main(ns) {
         if (programList[a] == "gang:3.js" && ns.gang.inGang() == false) {
           ns.tprint("WARN: You are not in a gang...");
           ns.tprint("Skiping...");
-          i++
+          a++
         }
 
         // run program
