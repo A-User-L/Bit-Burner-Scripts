@@ -2,7 +2,7 @@
 export async function main(ns) {
 
   // make file
-  if(fileExists("DoNotRemove.txt") == false) {
+  if(ns.fileExists("DoNotRemove.txt") == false) {
     ns.write("DoNotRemove.txt", `this file is needed for ${ns.getScriptName()} to work.`);
   }
 
