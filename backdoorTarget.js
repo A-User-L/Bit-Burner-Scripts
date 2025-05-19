@@ -22,6 +22,7 @@ export async function main(ns) {
     if((ns.getServerMaxRam(host) - ns.getServerUsedRam(host)) <= ns.getScriptRam(programList[a])) {
       ns.tprint(`WARN: You do not have enough RAM to run ${programList[a]}`);
       ns.tprint("Skiping...");
+      a++
     }
 
     // is program running?
