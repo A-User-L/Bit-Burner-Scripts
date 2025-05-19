@@ -2,7 +2,9 @@
 export async function main(ns) {
 
   // make file
-  ns.write("DoNotRemove.txt",`his file is used to get ${ns.getScriptName()} to work.`);
+  if(fileExists("DoNotRemove.txt") == false){
+    ns.write("DoNotRemove.txt",`this file is used to get ${ns.getScriptName()} to work.`);
+  }
 
   // pick target
   const targetName = ns.args[0];
