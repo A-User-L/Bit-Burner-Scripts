@@ -1,180 +1,86 @@
 /** @param {NS} ns */
 export async function main(ns) {
+  const host = ns.getHostname();
 
-  // make file
-  if(fileExists("DoNotRemove.txt") == false){
-    ns.write("DoNotRemove.txt",`this file is used to get ${ns.getScriptName()} to work.`);
-  }
+  // program List (Add More programs, Comment out, and Remove Programs as needed)
+  const programList = ["buyPrograms.js", "betterworm.js", "stockgoburr.js", "gang:3.js", "N00dles.js", "BladeBurner.js"];
 
-  // pick target
-  const targetName = ns.args[0];
-  String(targetName);
+  // programs that verbose through terminal
+  const termBose = ["buyPrograms.js", "N00dles.js"];
 
-  // see if target is real
-  if(targetName == null) {
-    ns.tprint("ERROR: Please add a target name...");
-    ns.tprint('INFO: EX:"backdoorTarget.js [Server]"');
-  }
-  else if (ns.serverExists(targetName) == false) {
-    ns.tprint("ERROR: please add a valid target name...");
-    ns.tprint('INFO: EX:"backdoorTarget.js [Server]"');
-  }
-  else {
+  // go through program List
+  for(let a = 0; a < programList.length; a++) {
 
-    // print target
-    ns.tprint(`Your Target is ${targetName}...`)
+    // see if YOU have the file
+    if(ns.fileExists(programList[a], host) == false) {
+      ns.tprint(`ERROR: Cant Find ${programList[a]}...`);
+      ns.tprint("Skiping...");
+      a++
+    }
 
-    // if program is real open ports and gain root function
-    function openPortsGainRoot() {
+    // see if YOU can run the program
+    if((ns.getServerMaxRam(host) - ns.getServerUsedRam(host)) <= ns.getScriptRam(programList[a])) {
+      ns.tprint(`WARN: You do not have enough RAM to run ${programList[a]}`);
+      ns.tprint("Skiping...");
+    }
 
-      const portsNeedOpen = ns.getServerNumPortsRequired(targetName);
+    // is program running?
+    if(ns.isRunning(programList[a]) == false) {
+      ns.tprint(`${programList[a]} is already running...`);
+      ns.tprint("Skiping...");
+      a++
+    }
 
-      // open ports if can
-      if(portsNeedOpen === 0) {
-        ns.tprint("INFO: You do not need to open any ports...");
-      }
-      else if(portsNeedOpen >= 1) {
-        if(ns.fileExists("BruteSSH.exe", "home")) {
-          ns.tprint("opening SSH port...");
-          ns.brutessh(targetName);
-        }
-        else {
-          ns.tprint('ERROR: "BruteSSH.exe" not found...');
-          ns.tprint("Exiting...");
-          ns.exit();
-        }
-      }
-      if(portsNeedOpen >= 2) {
-        if(ns.fileExists("FTPCrack.exe", "home")) {
-          ns.tprint("opening FTP port...");
-          ns.ftpcrack(targetName);
-        }
-        else {
-          ns.tprint('ERROR: "FTPCrack.exe" not found...');
-          ns.tprint("Exiting...");
-          ns.exit();
-        }
-      }
-      if(portsNeedOpen >= 3) {
-        if(ns.fileExists("relaySMTP.exe", "home")) {
-          ns.tprint("opening SMTP port...");
-          ns.relaysmtp(targetName);
-        }
-        else {
-          ns.tprint('ERROR: "relaySMTP.exe" not found...');
-          ns.tprint("Exiting...");
-          ns.exit();
-        }
-      }
-      if(portsNeedOpen >= 4) {
-        if(ns.fileExists("HTTPWorm.exe", "home")) {
-          ns.tprint("opening HTTP port...");
-          ns.httpworm(targetName);
-        }
-        else {
-          ns.tprint('ERROR: "HTTPWorm.exe" not found...');
-          ns.tprint("Exiting...");
-          ns.exit();
-        }
-      }
-      if(portsNeedOpen === 5) {
-        if(ns.fileExists("SQLInject.exe", "home")) {
-          ns.tprint("opening SQL port...");
-          ns.sqlinject(targetName);
-        }
-        else {
-          ns.tprint('ERROR: "SQLInject.exe" not found...');
-          ns.tprint("Exiting...");
-          ns.exit();
-        }
-      }
+    // for "gang:3.js" check if in gang
+    if(programList[a] == "gang:3.js" && ns.gang.inGang() == false) {
+      ns.tprint("WARN: You are not in a gang...");
+      ns.tprint("Skiping...");
+      a++
+    }
 
-      // gain root access
-      if(ns.fileExists("NUKE.exe", "home")) {
-        ns.tprint("Gaining Root access...");
-        ns.nuke(targetName);
+    // run program
+    ns.tprint(`Running ${programList[a]}`);
+    ns.run(programList[a]);
+
+    // give program time to run if verbose through terminal
+    for (let b = 0; b < termBose.length; b++) {
+      if(programList[a] == termBose[b]) {
+        do {
+          await ns.sleep(2000);
+        } while(ns.isRunning(programList[a]));
       }
       else {
-        ns.tprint('ERROR: "NUKE.exe" not found...');
-        ns.tprint("Exiting script...");
-        ns.exit();
+        await ns.sleep(1000);
       }
-    }
-
-    // check if have root, if not call function to open ports and gain root
-    ns.hasRootAccess(targetName) ? ns.tprint("INFO: You already have root access...") : openPortsGainRoot(), ns.tprint("Gaining Root successful...");
-    await ns.sleep(1000);
-
-    // check if you have already installed backdoor
-    if(ns.fileExists("DoNotRemove.txt", targetName)){
-      ns.tprint(`You have already installed a backdoor on ${targetName}`);
-      ns.tprint("Exiting script...");
-      ns.exit();
-    }
-
-    // get LVL to backdoor & get YOUR LVL
-    const backDoorLVL = ns.getServerRequiredHackingLevel(targetName);
-    const myLVL = ns.getHackingLevel();
-
-    // if can install a backdoor  
-    if(myLVL >= backDoorLVL) {
-
-      // get current server name
-      const hostname = ns.getHostname();
-
-      // if not at target then find path and go to target
-      if(ns.scan(hostname) != targetName) {
-
-        // find path... thanks to "Tyryt" for this part
-        var temp = ns.scan(ns.args[0]) //initializing temp to array of scan of target system
-        var path = []; //initializing final output
-        var prev = temp[0]; //intitializing previous server to first result (previous server) of the temp scan
-        var done = 0; //prepping for while loop
-        while (done == 0) { //workloop start  this could probably just be a ture/false or 1/0, optimize as you will
-          if (prev == "home") { //when the previous server is home, trigger this
-            done = 1; //set var to get us out of the while loop, ending the program.
-          }
-          else { //if the previous server is anything other than home, this runs
-            temp = ns.scan(prev); //scan the next server in the path
-            path.push(prev)  // compile the current path
-            prev = temp[0]; //set the previous server as the new server to scan from
-          }
-        }
-
-        // reverse array... EX: [path, path, path, target]
-        path.reverse();
-        path.push(targetName);
-
-        // connect through path
-        for(let i = 0; i < path.length; i++) {
-          ns.tprint(`connecting to ${path[i]}`)
-          ns.singularity.connect(path[i]);
-        }
-      }
-
-      // install backdoor
-      ns.tprint("installing Backdoor...");
-      await ns.singularity.installBackdoor();
-      ns.tprint("Backdoor installed...");
-
-      // copy file to target
-      ns.scp("DoNotRemove.txt", targetName, "home");
-
-      // return home
-      ns.tprint("Returning Home");
-
-      // reverse array...   EX:[target, path, path, path, home]
-      path.reverse();
-      path.push("home");
-      for(let i = 0; i < path.length; i++) {
-        ns.singularity.connect(path[i]);
-      }
-    }
-    else {
-      ns.tprint("ERROR: Can't install a Backdoor..."); 
-      ns.tprint(`INFO: your hacking LVL needs to be ${backDoorLVL}, Try again later...`);
-      ns.tprint("Exiting script...");
-      ns.exit();
     }
   }
+
+  // does "backdoorTarget.js" exist?
+  if(ns.fileExists("backdoorTarget.js")){
+    
+    // faction list
+    let factionServName = ["CSEC", "avmnite-02h", "I.I.I.I", "run4theh111z", "fulcrumassets"]
+
+    // go through faction list
+    for(let i = 0; i < factionServName.length; i++) {
+
+      // check if target already has a backdoor
+      if(ns.fileExists("DoNotRemove.txt", factionServName[i])){
+        i++
+      }
+
+      // backdoor reqirements
+      let backdoorNeed = ns.getServerRequiredHackingLevel(factionServName[i]);
+      let myLvL = ns.getHackingLevel();
+
+      // wait if can't backdoor
+      do {
+        await ns.sleep(1000);
+      } while(myLvL <= backdoorNeed)
+
+      // backdoor target
+      ns.run("backdoorTarget.js", 1, factionServName[i]);
+    }
+  }
+  ns.tprint("Script complete, exiting...");
 }
