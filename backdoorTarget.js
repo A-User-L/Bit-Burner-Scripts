@@ -116,13 +116,7 @@ export async function main(ns) {
     const backDoorLVL = ns.getServerRequiredHackingLevel(targetName);
     const myLVL = ns.getHackingLevel();
 
-    // check if already have installed backdoor
-    if(ns.fileExists("SystemFile.txt", targetName)){
-      ns.tprint(`ERROR: You have already installed a backdoor on ${targetName}...`);
-      ns.tprint("Exiting script...");
-      ns.exit();
-    }
-
+    // if can install a backdoor  
     if(myLVL >= backDoorLVL) {
 
       // get current server name
