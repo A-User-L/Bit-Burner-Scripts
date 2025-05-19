@@ -1,6 +1,9 @@
 /** @param {NS} ns */
 export async function main(ns) {
 
+  // make file
+  ns.write("DoNotRemove.txt",`his file is used to get ${ns.getScriptName()} to work.`);
+
   // pick target
   const targetName = ns.args[0];
   String(targetName);
@@ -19,7 +22,7 @@ export async function main(ns) {
     // print target
     ns.tprint(`Your Target is ${targetName}...`)
 
-    // if file is real open ports and gain root function
+    // if program is real open ports and gain root function
     function openPortsGainRoot() {
 
       const portsNeedOpen = ns.getServerNumPortsRequired(targetName);
@@ -90,7 +93,8 @@ export async function main(ns) {
         ns.nuke(targetName);
       }
       else {
-        ns.tprint('ERROR: "NUKE.exe" not found, exiting...');
+        ns.tprint('ERROR: "NUKE.exe" not found...');
+        ns.tprint("Exiting script...");
         ns.exit();
       }
     }
@@ -99,11 +103,23 @@ export async function main(ns) {
     ns.hasRootAccess(targetName) ? ns.tprint("INFO: You already have root access...") : openPortsGainRoot(), ns.tprint("Gaining Root successful...");
     await ns.sleep(1000);
 
-    // get LVL to backdoor & get MY LVL
+    // check if you have already installed backdoor
+    if(ns.fileExists("DoNotRemove.txt", targetName)){
+      ns.tprint(`You have already installed a backdoor on ${targetName}`);
+      ns.tprint("Exiting script...");
+      ns.exit();
+    }
+
+    // get LVL to backdoor & get YOUR LVL
     const backDoorLVL = ns.getServerRequiredHackingLevel(targetName);
     const myLVL = ns.getHackingLevel();
 
-
+    // check if already have installed backdoor
+    if(ns.fileExists("SystemFile.txt", targetName)){
+      ns.tprint(`ERROR: You have already installed a backdoor on ${targetName}...`);
+      ns.tprint("Exiting script...");
+      ns.exit();
+    }
 
     if(myLVL >= backDoorLVL) {
 
@@ -144,6 +160,9 @@ export async function main(ns) {
       ns.tprint("installing Backdoor...");
       await ns.singularity.installBackdoor();
       ns.tprint("Backdoor installed...");
+
+      // copy file to target
+      ns.scp("DoNotRemove.txt", targetName, "home");
 
       // return home
       ns.tprint("Returning Home");
