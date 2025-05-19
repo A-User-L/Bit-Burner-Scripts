@@ -19,14 +19,14 @@ export async function main(ns) {
     }
 
     // see if YOU can run the program
-    if((ns.getServerMaxRam(host) - ns.getServerUsedRam(host)) <= ns.getScriptRam(programList[a])) {
+    if((ns.getServerMaxRam(host) - ns.getServerUsedRam(host)) < ns.getScriptRam(programList[a])) {
       ns.tprint(`WARN: You do not have enough RAM to run ${programList[a]}`);
       ns.tprint("Skiping...");
       a++
     }
 
     // is program running?
-    if(ns.isRunning(programList[a]) == false) {
+    if(ns.isRunning(programList[a])) {
       ns.tprint(`${programList[a]} is already running...`);
       ns.tprint("Skiping...");
       a++
