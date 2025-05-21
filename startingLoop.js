@@ -15,21 +15,18 @@ export async function main(ns) {
     if(ns.fileExists(programList[a], host) == false) {
       ns.tprint(`ERROR: Cant Find ${programList[a]}...`);
       ns.tprint("Skiping...");
-      a++
     }
 
     // see if YOU can run the program
     else if((ns.getServerMaxRam(host) - ns.getServerUsedRam(host)) <= ns.getScriptRam(programList[a])) {
       ns.tprint(`WARN: You do not have enough RAM to run ${programList[a]}`);
       ns.tprint("Skiping...");
-      a++
     }
 
     // for "gang:3.js" check if in gang
     else if(programList[a] == "gang:3.js" && ns.gang.inGang() == false) {
       ns.tprint("WARN: You are not in a gang...");
       ns.tprint("Skiping...");
-      a++
     }
 
     // is program running?
@@ -68,23 +65,23 @@ export async function main(ns) {
 
       // check if target already has a backdoor
       if(ns.fileExists("DoNotRemove.txt", factionServName[i])){
-        i++
+        ns.print(`You have already installed a backdoor on ${factionServName[i]}`);
       }
+      else{
 
-      // backdoor reqirements
-      let backdoorNeed = ns.getServerRequiredHackingLevel(factionServName[i]);
-      let myLvL = ns.getHackingLevel();
+        // wait if can't backdoor
+        do{
+          var backdoorNeed = ns.getServerRequiredHackingLevel(factionServName[i]);
+          var myLvL = ns.getHackingLevel();
+          ns.print(`You have ${myLvL}, out of ${backdoorNeed} needed Hacking XP...`);
+          ns.print(`You need ${backdoorNeed - myLvL} more Hacking XP...`);
+          await ns.sleep(1000);
+        }while(myLvL <= backdoorNeed);
 
-      // wait if can't backdoor
-      while(myLvL < backdoorNeed){
-        await ns.sleep(1000);
-      };
-
-      // backdoor target
-      ns.run("backdoorTarget.js", 1, factionServName[i]);
+        // backdoor target
+        ns.run("backdoorTarget.js", 1, factionServName[i]);
+      }
     }
   }
-  ns.tprint("Script complete, exiting...");
-}
   ns.tprint("Script complete, exiting...");
 }
