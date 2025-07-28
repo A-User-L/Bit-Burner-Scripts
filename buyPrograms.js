@@ -10,7 +10,7 @@ export async function main(ns) {
     return formatedNum;
   }
 
-  // buy dark web if can
+  // buy TOR router if can
   if(homeMoney <= 200000) {
     ns.tprint("ERROR: You can not buy a TOR router...");
 
@@ -30,6 +30,11 @@ export async function main(ns) {
 
   // see what YOU can buy and buy if YOU can
   for(var i=0; i < programsForSale.length; i++){
+
+    // check amount of money YOU have
+    homeMoney = ns.getServerMoneyAvailable("home");
+
+    // get program cost
     let program = programsForSale[i]
     let programCost = ns.singularity.getDarkwebProgramCost(program);
     if(programCost == 0){
