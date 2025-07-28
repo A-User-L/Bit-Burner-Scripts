@@ -2,7 +2,7 @@
 export async function main(ns) {
 
   // check money YOU have
-  const homeMoney = ns.getServerMoneyAvailable("home");
+  let homeMoney = ns.getServerMoneyAvailable("home");
 
   // add commas to num for readability
   function formatNum(numToFormat) {
