@@ -1,6 +1,10 @@
 /** @param {NS} ns */
 export async function main(ns) {
 
+  // If you did copy the script "backdoorTarget.js" from my Github...
+  // You must change that script name to match what this script is looking for, or...
+  // Change what script this script is looking for...
+  
   // shorten "backdoorTarget.js" file name to lessen errors
   const bT = "backdoorTarget.js"
 
