@@ -1,9 +1,13 @@
 /** @param {NS} ns */
 export async function main(ns) {
 
+  // Idk why you would name this script something diffrent as it will break some of my other scripts...
+  // But if you do this script will still work...
+  let scriptName = ns.getScriptName();
+
   // make file
   if(ns.fileExists("DoNotRemove.txt") == false) {
-    ns.write("DoNotRemove.txt", `this file is needed for ${ns.getScriptName()} to work.`);
+    ns.write("DoNotRemove.txt", `this file is needed for ${scriptName} to work.`);
   }
 
   // pick target
@@ -13,12 +17,13 @@ export async function main(ns) {
   // see if target is real
   if(targetName == null) {
     ns.tprint("ERROR: Please add a target name...");
-    ns.tprint('INFO: EX:"backdoorTarget.js [Server]"');
+    ns.tprint(`INFO: EX:"${scriptName} [Server]"`);
   }
   else if (ns.serverExists(targetName) == false) {
     ns.tprint("ERROR: please add a valid target name...");
-    ns.tprint('INFO: EX:"backdoorTarget.js [Server]"');
+    ns.tprint(`INFO: EX:"${scriptName} [Server]"`);
   }
+
   // print target
   ns.tprint(`Your Target is ${targetName}...`)
 
@@ -144,7 +149,7 @@ export async function main(ns) {
       }
     }
 
-    // reverse array... EX: [path, path, path, target]
+    // reverse array... EX: [home, path, path, path, target]
     path.reverse();
     path.push(targetName);
 
@@ -173,3 +178,4 @@ export async function main(ns) {
     ns.singularity.connect(path[i]);
   }
 }
+
