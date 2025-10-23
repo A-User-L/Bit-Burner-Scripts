@@ -54,6 +54,9 @@ export async function main(ns) {
     }
   }
 
+  // If you did copy the script "backdoorTarget.js" from my Github...
+  // But you named it something else and you would like this functionality...
+  // You must change that script name to match what this script is looking for, or vice versa...
   // does "backdoorTarget.js" exist?
   if(ns.fileExists("backdoorTarget.js", host)){
     
